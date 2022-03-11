@@ -13,7 +13,7 @@ class Ppt2PngConverter extends Converter {
      */
     constructor() {
         super();
-        this.files = [];
+        this.file = '';
     }
 
     /**
@@ -21,14 +21,10 @@ class Ppt2PngConverter extends Converter {
      *
      * @param {array} files
      */
-    setFiles(files) {
-        if (!files || files.constructor !== Array) {
-            throw new Error('Files should be a array');
-        }
-
-        this.files = files.map((file) => File.create({
+    setFile(file) {
+        this.file = File.create({
             filePath: file
-        }));
+        });
     }
 
     /**
@@ -37,9 +33,9 @@ class Ppt2PngConverter extends Converter {
      * @return {array}
      */
     convert() {
-        return this.files.map((file) => {
+        return 
             const pdf = ppt2pdf({
-                file,
+                file:this.file,
                 output: this.output
             });
 
@@ -47,7 +43,7 @@ class Ppt2PngConverter extends Converter {
                 file:   pdf,
                 output: this.output
             });
-        });
+       
     }
 
     /**
@@ -58,12 +54,12 @@ class Ppt2PngConverter extends Converter {
      * @return {object}
      */
     static create({
-        files,
+        file,
         output
     }) {
         const converter = new Ppt2PngConverter();
 
-        converter.setFiles(files);
+        converter.setFile(file);
         converter.setOutput(output);
 
         return converter;
